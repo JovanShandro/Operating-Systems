@@ -1,0 +1,21 @@
+Here I will explain the results we get.
+
+1.b) After measuring a couple of times the execution times for copying a 
+text file of size 12,142,177 bytes to /dev/null, I get an average of 0.115 seconds 
+when using the C lib. copy loop and an average of about 10.251 seconds 
+for the system call loop. So we observe that the loop with system calls is 
+considerably slower than the one with library calls. We use strace to investigate
+the system calls to check why the C library loop is way faster than the 
+system call one. We see that when using the library functions, we have 
+2964 (each) read/writes of size 4096 bytes, and one of size 1633. Doing the 
+same thing with the sys call loop, we see 12,142,177 calls of each read/write
+with size 1 byte which explains the big difference in time. The reason why
+this happens is that in the sys call loop we are calling read and write to 
+read and write one byte each that's why we have calls of only size one. 
+
+1.c) Following same procedure as with the 2 other loops, we get an average
+ time of 0.051s. So we observe that the sendfile() system call is way
+ faster than the other methods used in the first 2 implemented loops.
+ The reason why this happens is that the sendfile() system call eliminates
+ the intermediate buffer which is usually needed when copying a file to 
+ another.
