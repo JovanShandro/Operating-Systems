@@ -1,0 +1,54 @@
+''' Here you can find the pseudocode asked in point a
+   Below, i have somehow used a python like structure mixes with c :) for the pseudocode
+   because I got used to it by reading the little book of 
+   semaphores. This code is inspired by one of the examples in 
+   the book, namely the dancers example.(queue section) '''
+
+mutex = Semaphore(1)
+cls = Semaphore(0)
+queue=[] //empty queue
+d[0]...d[i]... are all Semaphore(0) # a Semaphore for each of the detectives
+nc = nd = 0 # nr of dets and cls
+
+detective(i)
+{
+    mutex.down()
+    if(nc > 0):
+        j = nc
+        for i in range(j):
+            nc--;
+            cls.up()
+    else:
+        nd++
+        queue.append(d[i])
+        mutex.up()
+        d[i].down()
+
+    leave()
+    mutex.up()
+}
+
+client()
+{
+    mutex.down()
+    if(nd > 0):
+        nd--;
+        sem = queue.pop()
+        sem.up()
+    else:
+        nc++
+        mutex.up()
+        cls.down()
+
+    leave()
+}
+
+''' 
+    Small explanation on the codes. The cls semaphore is used 
+    to make sure that when a detective comes and there are 
+    clients inside he leaves with all of them.
+    Then each of the detective's semaphores takes care of the cases
+    when a client comes when there are many detectives and 
+    he/she chooses the detective that came first.
+    mutex takes care of mutual exclusion
+'''
