@@ -1,0 +1,24 @@
+/*
+    Please compile the code using:
+    gcc -pthread -o <name> coins.c
+*/
+
+I am writing the times measured when running the 
+function with different nrs of people and flips
+
+P     N    1st str time    2nd str time    3rd str time
+10   10       ~2.7 ms         ~1.37 ms        ~0.68 ms
+100  100     ~15.42 ms        ~55.9 ms       ~61.6 ms 
+500  700       ~52 ms        ~1242.9 ms       ~2195 ms 
+100  10000    ~106 ms         ~3590 ms       ~6216 ms
+10000 100     ~346 ms         ~3660 ms       ~6821 ms 
+777  5000     ~254 ms         ~14375 ms      ~25116 ms     
+5000  777     ~540 ms         ~13983 ms      ~27527 ms             
+5000 5000    ~1665 ms         ~97517 ms      ~169185 ms 
+
+From the results above, we observe that increasing both P and
+N would cause a great increase in time, but most importantly,
+the first strategy is considerably faster than all the others,
+and the second strategy comes second as P and N increase (we see 
+that for very small values of P and N 3rd str is faster)
+
